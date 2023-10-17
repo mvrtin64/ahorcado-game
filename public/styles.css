@@ -1,58 +1,71 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .container {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 20px;
-    max-width: 400px;
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  .hangman {
-    /* Estilos para el dibujo del ahorcado en progreso */
-    /* Puedes personalizar esto con imágenes o elementos de dibujo */
-  }
-  
-  .word {
-    font-size: 24px;
-    margin: 20px 0;
-  }
-  
-  .guess input {
-    padding: 5px;
-    font-size: 16px;
-    text-transform: uppercase;
-  }
-  
-  .guess button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  .attempts {
-    margin-top: 20px;
-  }
-  
-  .result {
-    font-weight: bold;
-    color: #d9534f;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  max-width: 400px;
+}
+
+h1 {
+  color: #333;
+}
+
+.hangman {
+  text-align: center;
+  margin: 10px;
+}
+
+#bodyText {
+  font-size: 24px;
+}
+
+img {
+  max-width: 100px;
+}
+
+.word {
+  font-size: 24px;
+  margin: 20px 0;
+}
+
+.guess input {
+  padding: 5px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.guess button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.attempts {
+  margin-top: 20px;
+}
+
+.message {
+  display: none;
+  font-weight: bold;
+}
+
+
+.result {
+  font-weight: bold;
+  color: #d9534f;
+}

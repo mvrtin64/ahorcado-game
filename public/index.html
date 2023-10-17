@@ -10,10 +10,12 @@
   <div class="container">
     <h1>Juego del Ahorcado</h1>
     <div class="hangman">
-      <!-- Dibujo del ahorcado en progreso -->
+      <pre id="bodyText"></pre>
+      <img src="cuerda.jpg" alt="Cuerda">
     </div>
     <div class="word">
-      <!-- Representación de la palabra a adivinar -->
+      <pre id="wordText"></pre>
+      <span class="initial-word"></span>
     </div>
     <div class="guess">
       <!-- Campo para adivinar letras -->
@@ -25,8 +27,9 @@
       <p>Intentos restantes: <span id="attemptsLeft">6</span></p>
     </div>
     <div class="result">
-      <!-- Resultado del juego (ganar o perder) -->
-    </div>
+      <p class="message" id="loseMessage"></p>
+      <p class="message" id="winMessage"></p>
+    </div>    
   </div>
   <script src="script.js"></script>
 </body>
