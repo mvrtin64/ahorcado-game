@@ -5,8 +5,8 @@ const guessButton = document.querySelector('#guessButton');
 const attemptsLeft = document.querySelector('#attemptsLeft');
 const resultMessage = document.querySelector('.result');
 
-let palabraSecreta;
-let palabraAdivinada = [];
+let secretWord;
+let guessedWord = [];
 let intentosRestantes = 6;
 
 const socket = new WebSocket('ws://localhost:3000');
@@ -23,13 +23,13 @@ socket.addEventListener('message', (event) => {
   const data = JSON.parse(event.data);
 
   if (data.palabraSecreta) {
-    palabraSecreta = data.palabraSecreta;
+    secretWord = data.palabraSecreta;
     
     // Inicializa la palabra a adivinar con guiones bajos
-    initialWordElement.textContent = ' _'.repeat(palabraSecreta.length);
-    // Inicializa palabraAdivinada con guiones bajos para cada letra de la palabra secreta
-    for (let i = 0; i < palabraSecreta.length; i++) {
-      palabraAdivinada.push('_');
+    initialWordElement.textContent = ' _'.repeat(secretWord.length);
+    // Inicializa guessedWord con guiones bajos para cada letra de la palabra secreta
+    for (let i = 0; i < secretWord.length; i++) {
+      guessedWord.push('_');
     }
   }
 
@@ -38,45 +38,32 @@ socket.addEventListener('message', (event) => {
     attemptsLeft.textContent = data.intentosRestantes;
   }
 
-  // Verifica si el jugador ha ganado
-  if (wordElement.textContent === palabraSecreta) {
-    resultMessage.textContent = '¡Ganaste! Has adivinado la palabra correctamente.';
-    // Puedes agregar aquí cualquier otra lógica que desees para manejar la victoria.
-  }
-
-  // Verifica si el jugador ha perdido
-  if (data.intentosRestantes === 0) {
-    resultMessage.textContent = '¡Perdiste! La palabra era: ' + palabraSecreta;
-    // Deshabilita el campo de entrada y el botón de adivinar
-    letterInput.disabled = true;
-    guessButton.disabled = true;
-  }
 });
 
 guessButton.addEventListener('click', () => {
-  const letra = guessInput.value.toLowerCase();
-  console.log('Letra adivinada:', letra);
+  const letter = guessInput.value.toLowerCase();
+  console.log('Letra adivinada:', letter); 
 
   if (socket.readyState === WebSocket.OPEN) {
     if (intentosRestantes > 0) {
-      const letraAdivinada = procesarAdivinanza(letra);
+      const guessedLetter = puzzleProcessing(letter);
 
-      if (!letraAdivinada) {
+      if (!guessedLetter) {
         intentosRestantes--;
         attemptsLeft.textContent = intentosRestantes;
       }
 
       // Actualiza la palabra en la interfaz
-      wordElement.textContent = palabraAdivinada.join(' ');
+      wordElement.textContent = guessedWord.join(' ');
 
       if (intentosRestantes <= 0) {
         const loseMessage = document.getElementById('loseMessage');
-        loseMessage.textContent = palabraSecreta;
+        loseMessage.textContent = secretWord;
         resultMessage.classList.add('lose-message');
-        resultMessage.textContent = '¡Perdiste! La palabra era: ' + palabraSecreta;
+        resultMessage.textContent = '¡Perdiste! La palabra era: ' + secretWord;
         guessInput.disabled = true; // Deshabilita el campo de entrada
         guessButton.disabled = true; // Deshabilita el botón
-      } else if (palabraAdivinada.join('') === palabraSecreta) {
+      } else if (guessedWord.join('') === secretWord) {
         resultMessage.textContent = '¡Ganaste! Has adivinado la palabra correctamente.';
         guessInput.disabled = true; // Deshabilita el campo de entrada
         guessButton.disabled = true; // Deshabilita el botón
@@ -84,20 +71,20 @@ guessButton.addEventListener('click', () => {
     }
   }
   console.log('Intentos restantes:', intentosRestantes);
-  console.log('Palabra adivinada:', palabraAdivinada.join(' '));
+  console.log('Palabra adivinada:', guessedWord.join(' '));
 
   guessInput.value = ''; // Limpiar el campo de entrada después de adivinar
 });
 
-function procesarAdivinanza(letra) {
-  let letraAdivinada = false;
-  for (let i = 0; i < palabraSecreta.length; i++) {
-    if (palabraSecreta[i] === letra) {
-      palabraAdivinada[i] = letra;
-      letraAdivinada = true;
+function puzzleProcessing(letter) {
+  let guessedLetter = false;
+  for (let i = 0; i < secretWord.length; i++) {
+    if (secretWord[i] === letter) {
+      guessedWord[i] = letter;
+      guessedLetter = true;
     }
   }
 
-  return letraAdivinada;
+  return guessedLetter;
 }
 
