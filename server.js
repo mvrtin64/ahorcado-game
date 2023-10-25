@@ -10,7 +10,7 @@ const wss = new WebSocket.Server({ server });
 app.use(express.static(path.join(__dirname, 'public')));
 
 wss.on('connection', (ws) => {
-  console.log('Cliente conectado');
+  /* console.log('Cliente conectado'); */
 
   const palabrasParaAdivinar = ['manzana', 'perro', 'gato', 'casa', 'sol', 'mandarina', 'computadora', 'mate', 'jugo'];
 
@@ -20,6 +20,7 @@ wss.on('connection', (ws) => {
   }
 
   let palabraSecreta = seleccionarPalabraAleatoria();
+
   ws.send(JSON.stringify({ palabraSecreta: palabraSecreta }));
   let palabraAdivinada = Array(palabraSecreta.length).fill('_');
   let intentosFallidos = 0;
@@ -41,22 +42,12 @@ wss.on('connection', (ws) => {
     return letraAdivinada;
   }
 
-  function verificarEstadoJuego() {
-    if (intentosRestantes === 0) {
-      // El jugador ha perdido.
-    } else if (palabraAdivinada.join('') === palabraSecreta) {
-      // El jugador ha ganado.
-    }
-  }
-
   ws.on('message', (message) => {
     console.log(message);
     if (message.length === 1) {
       const data = JSON.parse(message);
       const letra = data.letra.toLowerCase();
       const letraAdivinada = adivinarLetra(letra);
-
-      verificarEstadoJuego();
 
       const estadoJuego = {
         palabraAdivinada: palabraAdivinada.join(' '),

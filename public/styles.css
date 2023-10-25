@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f20e0e;
+  background-color: #ffffff;
   margin: 0;
   padding: 0;
   display: flex;
@@ -65,7 +65,14 @@ img {
 }
 
 
-.result {
+.result #resultMessage {
   font-weight: bold;
-  color: #d9534f;
+}
+
+.result #resultMessage.win {
+  color: green
+}
+
+.result #resultMessage.lose {
+  color: red
 }

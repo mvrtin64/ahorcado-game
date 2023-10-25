@@ -3,7 +3,9 @@ const wordElement = document.querySelector('.word');
 const guessInput = document.querySelector('#letterInput');
 const guessButton = document.querySelector('#guessButton');
 const attemptsLeft = document.querySelector('#attemptsLeft');
-const resultMessage = document.querySelector('.result');
+const resultContainer = document.querySelector('.result');
+const resultMessage = document.querySelector('#resultMessage');
+const resetButton = document.querySelector('#resetButton');
 
 let secretWord;
 let guessedWord = [];
@@ -48,6 +50,10 @@ guessButton.addEventListener('click', () => {
     if (intentosRestantes > 0) {
       const guessedLetter = puzzleProcessing(letter);
 
+      if (letter.trim() === '') {
+        return;
+      }
+
       if (!guessedLetter) {
         intentosRestantes--;
         attemptsLeft.textContent = intentosRestantes;
@@ -57,23 +63,27 @@ guessButton.addEventListener('click', () => {
       wordElement.textContent = guessedWord.join(' ');
 
       if (intentosRestantes <= 0) {
-        const loseMessage = document.getElementById('loseMessage');
-        loseMessage.textContent = secretWord;
         resultMessage.classList.add('lose-message');
         resultMessage.textContent = '¡Perdiste! La palabra era: ' + secretWord;
+        resultMessage.className = 'lose';
         guessInput.disabled = true; // Deshabilita el campo de entrada
         guessButton.disabled = true; // Deshabilita el botón
       } else if (guessedWord.join('') === secretWord) {
         resultMessage.textContent = '¡Ganaste! Has adivinado la palabra correctamente.';
+        resultMessage.className = 'win';
         guessInput.disabled = true; // Deshabilita el campo de entrada
         guessButton.disabled = true; // Deshabilita el botón
       }
     }
   }
-  console.log('Intentos restantes:', intentosRestantes);
-  console.log('Palabra adivinada:', guessedWord.join(' '));
+  /* console.log('Intentos restantes:', intentosRestantes);
+  console.log('Palabra adivinada:', guessedWord.join(' ')); */
 
   guessInput.value = ''; // Limpiar el campo de entrada después de adivinar
+});
+
+resetButton.addEventListener('click', () =>{                     // reiniciar la página al apretar el botón de reiniciar
+  location.reload();
 });
 
 function puzzleProcessing(letter) {
